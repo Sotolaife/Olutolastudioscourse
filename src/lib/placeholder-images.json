@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "welcome-video",
+      "description": "Introduction to Branding and Design",
+      "imageUrl": "https://images.unsplash.com/photo-1574717024757-c1ec4d86ae82?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dmlkZW8lMjBlZGl0aW5nfGVufDB8fHx8MTc2MDk5MDI4MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "video editing"
+    },
+    {
+      "id": "module-1",
+      "description": "Thumbnail for lesson 1",
+      "imageUrl": "https://images.unsplash.com/photo-1655026954127-3ce9c4a8cf65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaW5lbWF0aWMlMjBlZGl0aW5nfGVufDB8fHx8MTc2MTAwNzUwMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cinematic editing"
+    },
+    {
+      "id": "module-2",
+      "description": "Thumbnail for lesson 2",
+      "imageUrl": "https://images.unsplash.com/photo-1612713566476-385f5af81095?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb2xvciUyMGdyYWRpbmd8ZW58MHx8fHwxNzYwOTI1NjQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "color grading"
+    },
+    {
+      "id": "module-3",
+      "description": "Thumbnail for lesson 3",
+      "imageUrl": "https://images.unsplash.com/photo-1699060463533-94ceb428c67f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtb3Rpb24lMjBncmFwaGljc3xlbnwwfHx8fDE3NjA5MzM4ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "motion graphics"
+    },
+    {
+      "id": "module-4",
+      "description": "Thumbnail for lesson 4",
+      "imageUrl": "https://images.unsplash.com/photo-1599056573354-af8be5568288?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c291bmQlMjBkZXNpZ258ZW58MHx8fHwxNzYxMDA3NTAxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sound design"
+    },
+    {
+      "id": "module-5",
+      "description": "Thumbnail for lesson 5",
+      "imageUrl": "https://images.unsplash.com/photo-1666032956671-5cc9a6bcf7a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx2aXN1YWwlMjBlZmZlY3RzfGVufDB8fHx8MTc2MTAwNzUwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "visual effects"
+    },
+    {
+      "id": "module-6",
+      "description": "Thumbnail for lesson 6",
+      "imageUrl": "https://images.unsplash.com/photo-1505682499293-233fb141754c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdG9yeXRlbGxpbmclMjBlZGl0aW5nfGVufDB8fHx8MTc2MTAwNzUwMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "storytelling editing"
+    },
+    {
+      "id": "module-7",
+      "description": "Thumbnail for lesson 7",
+      "imageUrl": "https://picsum.photos/seed/olutola7/600/400",
+      "imageHint": "export settings"
+    },
+    {
+      "id": "module-8",
+      "description": "Thumbnail for lesson 8",
+      "imageUrl": "https://images.unsplash.com/photo-1649451844931-57e22fc82de3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjbGllbnQlMjB3b3JrZmxvd3xlbnwwfHx8fDE3NjEwMDc1MDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "client workflow"
+    }
+  ]
 }
