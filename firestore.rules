@@ -1,0 +1,129 @@
+/**
+ * @fileoverview Firestore Security Rules for the OLÚTỌ́LÁ Studios Course Platform.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model for user profiles and
+ * payment information. Courses, lessons, and email triggers are generally
+ * publicly readable, but write access is not defined in this prototype.
+ *
+ * Data Structure:
+ * - /users/{userId}: User profile data, accessible only to the user themselves.
+ * - /courses/{courseId}: Course data, publicly readable.
+ * - /lessons/{lessonId}: Lesson data, publicly readable.  Lessons are linked to courses via the courseId field.
+ * - /users/{userId}/payments/{paymentId}: Payment data, accessible only to the user themselves.
+ * - /email_triggers/{emailTriggerId}: Email trigger configurations, publicly readable.
+ *
+ * Key Security Decisions:
+ * - User listing is disabled for security reasons.
+ * - Assumes default "student" role unless the `role` field is explicitly set to "admin."
+ * - Missing ownership fields in courses, lessons, and email triggers will result in DENY ALL write rule placeholders.
+ *
+ * Denormalization for Authorization:
+ * To achieve Authorization Independence and avoid costly `get()` calls, consider denormalizing
+ * authorization-relevant data directly into the documents being secured. For example, copy a
+ * course's owner ID to each lesson to simplify write access checks.  Roles are stored on the user document.
+ *
+ * Structural Segregation:
+ * User-specific data (profiles, payments) is stored under the /users/{userId} path, ensuring
+ * that list operations are secure by default and only the owner can access their data. Public data
+ * (courses, lessons) resides in top-level collections.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Controls access to user profile data.
+     * @path /users/{userId}
+     * @allow (create) - Authenticated user can create their own profile if the userId matches their auth.uid.
+     * @allow (get, list, update, delete) - Authenticated user can only access their own profile.
+     * @deny (create) - If the userId does not match the authenticated user's uid.
+     * @principle Enforces document ownership for reads and writes, and allows self-creation.
+     */
+    match /users/{userId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false; // User listing is not permitted.
+
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id; //Enforce immutability of id
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Controls access to course data.  Publicly readable, writes not secured.
+     * @path /courses/{courseId}
+     * @allow (get, list) - Anyone can read the course data.
+     * @deny (create, update, delete) - No write access is defined in this prototype, therefore all writes are denied.
+     * @principle Public read access with placeholder for restricted write access.
+     */
+    match /courses/{courseId} {
+      allow get, list: if true;
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+
+    /**
+     * @description Controls access to lesson data.  Publicly readable, writes not secured.
+     * @path /lessons/{lessonId}
+     * @allow (get, list) - Anyone can read the lesson data.
+     * @deny (create, update, delete) - No write access is defined in this prototype, therefore all writes are denied.
+     * @principle Public read access with placeholder for restricted write access.
+     */
+    match /lessons/{lessonId} {
+      allow get, list: if true;
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+
+    /**
+     * @description Controls access to payment data for a specific user.
+     * @path /users/{userId}/payments/{paymentId}
+     * @allow (create) - Authenticated user can create their own payment record if the userId matches their auth.uid.
+     * @allow (get, list, update, delete) - Authenticated user can only access their own payment records.
+     * @deny (create) - If the userId does not match the authenticated user's uid.
+     * @principle Enforces document ownership for reads and writes, and allows self-creation.
+     */
+    match /users/{userId}/payments/{paymentId} {
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId); // Allow the owner to list their own payments.
+
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId; //Enforce immutability of userId
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Controls access to email trigger data. Publicly readable, writes not secured.
+     * @path /email_triggers/{emailTriggerId}
+     * @allow (get, list) - Anyone can read the email trigger data.
+     * @deny (create, update, delete) - No write access is defined in this prototype, therefore all writes are denied.
+     * @principle Public read access with placeholder for restricted write access.
+     */
+    match /email_triggers/{emailTriggerId} {
+      allow get, list: if true;
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+  }
+}
