@@ -6,11 +6,11 @@
       "type": "object",
       "description": "Represents a user of the OLÚTỌ́LÁ Studios course platform.",
       "properties": {
-        "id": {
+        "user_id": {
           "type": "string",
-          "description": "Unique identifier for the user entity."
+          "description": "Auto-generated unique user ID."
         },
-        "fullName": {
+        "full_name": {
           "type": "string",
           "description": "Student's full name."
         },
@@ -24,7 +24,7 @@
           "description": "Optional phone number for Telegram verification."
         },
         "progress": {
-          "type": "string",
+          "type": "object",
           "description": "Tracks lessons completed by the user."
         },
         "devices": {
@@ -34,32 +34,41 @@
             "type": "string"
           }
         },
-        "paymentStatus": {
+        "payment_status": {
           "type": "string",
-          "description": "Payment status of the user ('pending', 'active', or 'expired')."
+          "description": "Payment status of the user ('pending', 'active', or 'expired').",
+          "enum": [
+            "pending",
+            "active",
+            "expired"
+          ]
         },
-        "joinDate": {
+        "join_date": {
           "type": "string",
           "description": "Date when the user enrolled.",
           "format": "date-time"
         },
-        "lastLogin": {
+        "last_login": {
           "type": "string",
           "description": "Last login timestamp.",
           "format": "date-time"
         },
         "role": {
           "type": "string",
-          "description": "Role of the user ('student' or 'admin')."
+          "description": "Role of the user ('student' or 'admin').",
+          "enum": [
+            "student",
+            "admin"
+          ]
         }
       },
       "required": [
-        "id",
-        "fullName",
+        "user_id",
+        "full_name",
         "email",
-        "paymentStatus",
-        "joinDate",
-        "lastLogin",
+        "payment_status",
+        "join_date",
+        "last_login",
         "role"
       ]
     },
@@ -69,9 +78,9 @@
       "type": "object",
       "description": "Represents a course offered on the OLÚTỌ́LÁ Studios platform.",
       "properties": {
-        "id": {
+        "course_id": {
           "type": "string",
-          "description": "Unique identifier for the course entity."
+          "description": "Unique course identifier."
         },
         "title": {
           "type": "string",
@@ -91,40 +100,44 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of the course ('published' or 'draft')."
+          "description": "Status of the course ('published' or 'draft').",
+          "enum": [
+            "published",
+            "draft"
+          ]
         },
         "category": {
           "type": "string",
           "description": "Category of the course (e.g., 'Design', 'Branding')."
         },
-        "moduleIds": {
+        "modules": {
           "type": "array",
-          "description": "List of lesson IDs (references to Lesson). (Relationship: Course 1:N Lesson)",
+          "description": "List of lesson IDs (references to Lesson).",
           "items": {
             "type": "string"
           }
         },
-        "createdAt": {
+        "created_at": {
           "type": "string",
           "description": "Date when the course was created.",
           "format": "date-time"
         },
-        "updatedAt": {
+        "updated_at": {
           "type": "string",
           "description": "Date when the course was last updated.",
           "format": "date-time"
         }
       },
       "required": [
-        "id",
+        "course_id",
         "title",
         "description",
         "thumbnail",
         "price",
         "status",
         "category",
-        "createdAt",
-        "updatedAt"
+        "created_at",
+        "updated_at"
       ]
     },
     "Lesson": {
@@ -133,19 +146,19 @@
       "type": "object",
       "description": "Represents a lesson within a course.",
       "properties": {
-        "id": {
+        "lesson_id": {
           "type": "string",
           "description": "Unique identifier for the lesson entity."
         },
-        "courseId": {
+        "course_id": {
           "type": "string",
-          "description": "Reference to the parent course. (Relationship: Course 1:N Lesson)"
+          "description": "Reference to the parent course."
         },
         "title": {
           "type": "string",
           "description": "Title of the lesson (e.g., 'Introduction to Branding')."
         },
-        "videoUrl": {
+        "video_url": {
           "type": "string",
           "description": "URL of the YouTube embed link for the lesson."
         },
@@ -158,8 +171,7 @@
         },
         "order": {
           "type": "number",
-          "description": "Order of the lesson within the course (1, 2, 3...).",
-          "format": "number"
+          "description": "Order of the lesson within the course (1, 2, 3...)."
         },
         "description": {
           "type": "string",
@@ -171,23 +183,27 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of the lesson ('active' or 'hidden')."
+          "description": "Status of the lesson ('active' or 'hidden').",
+          "enum": [
+            "active",
+            "hidden"
+          ]
         },
-        "createdAt": {
+        "created_at": {
           "type": "string",
           "description": "Date when the lesson was created.",
           "format": "date-time"
         }
       },
       "required": [
-        "id",
-        "courseId",
+        "lesson_id",
+        "course_id",
         "title",
-        "videoUrl",
+        "video_url",
         "order",
         "description",
         "status",
-        "createdAt"
+        "created_at"
       ]
     },
     "Payment": {
@@ -196,17 +212,17 @@
       "type": "object",
       "description": "Represents a payment transaction made by a user for a course.",
       "properties": {
-        "id": {
+        "payment_id": {
           "type": "string",
           "description": "Unique identifier for the payment transaction."
         },
-        "userId": {
+        "user_id": {
           "type": "string",
-          "description": "Reference to the paying user. (Relationship: User 1:N Payment)"
+          "description": "Reference to the paying user."
         },
-        "courseId": {
+        "course_id": {
           "type": "string",
-          "description": "Reference to the purchased course. (Relationship: Course 1:N Payment)"
+          "description": "Reference to the purchased course."
         },
         "amount": {
           "type": "number",
@@ -218,22 +234,27 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of the payment ('successful', 'failed', 'pending')."
+          "description": "Status of the payment ('successful', 'failed', 'pending').",
+          "enum": [
+            "successful",
+            "failed",
+            "pending"
+          ]
         },
-        "paymentDate": {
+        "payment_date": {
           "type": "string",
           "description": "Date when the payment was made.",
           "format": "date-time"
         }
       },
       "required": [
-        "id",
-        "userId",
-        "courseId",
+        "payment_id",
+        "user_id",
+        "course_id",
         "amount",
         "method",
         "status",
-        "paymentDate"
+        "payment_date"
       ]
     },
     "EmailTrigger": {
@@ -242,28 +263,28 @@
       "type": "object",
       "description": "Represents an email trigger for automated emails.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the email trigger."
-        },
         "type": {
           "type": "string",
-          "description": "Type of email trigger ('welcome', 'progress', 'reminder')."
+          "description": "Type of email trigger ('welcome', 'progress', 'reminder').",
+          "enum": [
+            "welcome",
+            "progress",
+            "reminder"
+          ]
         },
-        "templateId": {
+        "template_id": {
           "type": "string",
           "description": "Reference to the email template."
         },
-        "triggerTime": {
+        "trigger_time": {
           "type": "string",
           "description": "Event that triggers the email (e.g., 'onSignup', 'onCourseComplete')."
         }
       },
       "required": [
-        "id",
         "type",
-        "templateId",
-        "triggerTime"
+        "template_id",
+        "trigger_time"
       ]
     }
   },
@@ -278,88 +299,48 @@
       {
         "path": "/users/{userId}",
         "definition": {
-          "entityName": "User",
           "schema": {
-            "$ref": "#/backend/entities/User"
+            "$ref": "#/entities/User"
           },
-          "description": "Stores user profiles. Uses path-based ownership for private user data.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            }
-          ]
+          "description": "Stores user profiles."
         }
       },
       {
         "path": "/courses/{courseId}",
         "definition": {
-          "entityName": "Course",
           "schema": {
-            "$ref": "#/backend/entities/Course"
+            "$ref": "#/entities/Course"
           },
-          "description": "Stores course information.",
-          "params": [
-            {
-              "name": "courseId",
-              "description": "The unique identifier for the course."
-            }
-          ]
+          "description": "Stores course information."
         }
       },
       {
         "path": "/lessons/{lessonId}",
         "definition": {
-          "entityName": "Lesson",
           "schema": {
-            "$ref": "#/backend/entities/Lesson"
+            "$ref": "#/entities/Lesson"
           },
-          "description": "Stores lesson details.",
-          "params": [
-            {
-              "name": "lessonId",
-              "description": "The unique identifier for the lesson."
-            }
-          ]
+          "description": "Stores lesson details."
         }
       },
       {
         "path": "/users/{userId}/payments/{paymentId}",
         "definition": {
-          "entityName": "Payment",
           "schema": {
-            "$ref": "#/backend/entities/Payment"
+            "$ref": "#/entities/Payment"
           },
-          "description": "Stores payment information for each user. Uses path-based ownership.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user."
-            },
-            {
-              "name": "paymentId",
-              "description": "The unique identifier for the payment."
-            }
-          ]
+          "description": "Stores payment information for each user."
         }
       },
       {
         "path": "/email_triggers/{emailTriggerId}",
         "definition": {
-          "entityName": "EmailTrigger",
           "schema": {
-            "$ref": "#/backend/entities/EmailTrigger"
+            "$ref": "#/entities/EmailTrigger"
           },
-          "description": "Stores email trigger configurations.",
-          "params": [
-            {
-              "name": "emailTriggerId",
-              "description": "The unique identifier for the email trigger."
-            }
-          ]
+          "description": "Stores email trigger configurations."
         }
       }
-    ],
-    "reasoning": "The Firestore structure is designed to provide a secure and scalable platform for OLÚTỌ́LÁ Studios' online courses, adhering to the principles of Authorization Independence, Clarity of Intent, DBAC, and QAPs. The structure prioritizes path-based ownership for user-specific data and utilizes structural segregation to maintain homogeneous security postures within collections.  Authorization Independence is achieved through denormalization where necessary. For instance, if access to lessons depended on course attributes, those attributes would be copied into each lesson document. This avoids the need for `get()` calls in security rules, facilitating atomic operations and simplifying debugging.\n\nTo support QAPs, the structure leverages structural segregation.  Publicly listable courses reside in the `/courses` collection, while user-specific data like payments and progress are stored under `/users/{userId}`, ensuring secure list operations based on path-based ownership.  Roles are stored directly on the user document in the `/users` collection.\n\nIn summary, this design enables efficient data retrieval, straightforward security rule implementation, and robust application performance."
+    ]
   }
 }
